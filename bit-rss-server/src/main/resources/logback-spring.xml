@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="APP_NAME" value="bit-rss" />
+    <property name="LOG_PATH" value="${user.home}/${APP_NAME}/logs" />
+    <property name="LOG_PATTERN" value="%d{MM-dd HH:mm:ss.SSS} %highlight(%-4level) %thread [%cyan(%logger{1})]  %msg%n"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/application.log</file> <!-- 主日志文件 -->
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/application.%d{yyyy-MM-dd}.log</fileNamePattern> <!-- 按日期和索引命名 -->
+            <maxHistory>30</maxHistory> <!-- 最多保留最近30天的日志 -->
+            <totalSizeCap>1024MB</totalSizeCap> <!-- 日志总大小限制1024MB -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart> <!-- 启动时清理历史日志 -->
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxSize>10MB</maxSize> <!-- 每个日志文件的最大大小 -->
+        </triggeringPolicy>
+
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
